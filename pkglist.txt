@@ -16,7 +16,6 @@ gst-plugin-pipewire
 htop
 i3-wm
 i3blocks
-i3lock-color
 i3status
 intel-media-driver
 iwd
