@@ -159,8 +159,8 @@ fi
 ### ENABLE ESSENTIAL SYSTEM SERVICES ###
 log "Enabling system services..."
 sudo systemctl enable --now NetworkManager || error "Failed to enable NetworkManager"
-sudo systemctl enable --now ly || error "Failed to enable ly"
-sudo systemctl enable --now sshd || error "Failed to enable SSH"
+sudo systemctl enable ly || error "Failed to enable ly"
+sudo systemctl enable sshd || error "Failed to enable SSH"
 
 ### CLEANUP ###
 log "Cleaning up unnecessary dependencies..."
