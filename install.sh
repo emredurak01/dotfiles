@@ -18,11 +18,13 @@ error() {
 
 ### UPDATE SYSTEM ###
 log "Updating system packages..."
+sleep 1
 sudo pacman -Syu --noconfirm || error "System update failed"
 
 ### INSTALL GIT ###
 if ! command -v git &>/dev/null; then
     log "Git not found. Installing..."
+    sleep 1
     sudo pacman -S --needed --noconfirm git || error "Failed to install Git"
 fi
 
@@ -32,22 +34,27 @@ DOTFILES_DIR="$HOME/dotfiles"
 
 if [ -d "$DOTFILES_DIR" ]; then
     log "Dotfiles already cloned. Pulling latest updates..."
+    sleep 1
     cd "$DOTFILES_DIR" && git pull && cd -
 else
     log "Cloning dotfiles from $DOTFILES_REPO..."
+    sleep 1
     git clone "$DOTFILES_REPO" "$DOTFILES_DIR" || error "Failed to clone dotfiles"
 fi
 
 ### INSTALL yay ###
 log "Installing yay (AUR helper)..."
+sleep 1
 if ! command -v yay &>/dev/null; then
-    git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay
-    makepkg -si --noconfirm || error "Failed to install yay"
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    cd /tmp/yay
+    sudo -u "$USER" makepkg -si --noconfirm || error "Failed to install yay"
     cd - && rm -rf /tmp/yay
 fi
 
 ### INSTALL OFFICIAL PACKAGES ###
 log "Installing packages from official repositories..."
+sleep 1
 if [ -f "$DOTFILES_DIR/pkglist.txt" ]; then
     xargs -a "$DOTFILES_DIR/pkglist.txt" sudo pacman -S --needed --noconfirm || error "Failed to install official packages"
 else
@@ -56,6 +63,7 @@ fi
 
 ### INSTALL AUR PACKAGES ###
 log "Installing AUR packages..."
+sleep 1
 if [ -f "$DOTFILES_DIR/aur-pkglist.txt" ]; then
     xargs -a "$DOTFILES_DIR/aur-pkglist.txt" yay -S --needed --noconfirm || error "Failed to install AUR packages"
 else
@@ -64,6 +72,7 @@ fi
 
 ### BACKUP EXISTING CONFIGS ###
 log "Backing up existing config files..."
+sleep 1
 mkdir -p "$HOME/config_backup"
 cp -r "$HOME/.config" "$HOME/config_backup/" || log "No existing .config to backup"
 cp -r /etc/pacman.conf "$HOME/config_backup/" || log "No existing pacman.conf to backup"
@@ -71,22 +80,46 @@ cp -r /etc/ly/config.ini "$HOME/config_backup/" || log "No existing ly config.in
 
 ### MOVE CONFIG FILES TO HOME ###
 log "Applying new configuration files..."
+sleep 1
 cp -r "$DOTFILES_DIR/.config" "$HOME/"
-cp "$DOTFILES_DIR/.xinitrc" "$HOME/"
 cp -r "$DOTFILES_DIR/Pictures" "$HOME/"
 cp -r "$DOTFILES_DIR/.screenlayout" "$HOME/"
 
+### INSTALL NVIM ###
+log "Installing Nvim..."
+sleep 1
+if [ ! -d "$HOME/.config/nvim" ]; then
+    git clone https://github.com/NvChad/NvChad "$HOME/.config/nvim" --depth 1
+else
+    log "NVChad already installed, skipping..."
+fi
+
+log "Waiting for NVChad to initialize..."
+sleep 5
+
+log "Installing Mason LSPs..."
+sleep 1
+nvim --headless "+Lazy sync" "+MasonInstall bash-language-server clangd css-lsp html-lsp jdtls lua-language-server pyright typescript-language-server" +qall
+
+### SET KEYBOARD REPEAT RATE ###
+log "Ensuring keyboard repeat rate is set..."
+sleep 1
+echo "xset r rate 250 50" >> "$HOME/.xprofile"
+
 ### INSTALL OH MY ZSH ###
 log "Installing Oh My Zsh..."
+sleep 1
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    rm -rf "$HOME/.oh-my-zsh"  # Remove any existing folder to avoid conflicts
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    rm -rf "$HOME/.oh-my-zsh"
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh || error "Failed to install Oh My Zsh"
 else
     log "Oh My Zsh already installed, skipping..."
 fi
 
+
 ### INSTALL OH MY ZSH PLUGINS ###
 log "Installing Zsh plugins..."
+sleep 1
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom/plugins"
 
 declare -A plugins=(
@@ -106,6 +139,7 @@ done
 
 ### INSTALL POWERLEVEL10K ###
 log "Installing Powerlevel10k..."
+sleep 1
 P10K_THEME="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ ! -d "$P10K_THEME" ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_THEME"
@@ -115,31 +149,56 @@ fi
 
 ### APPLY ZSH CONFIGURATION ###
 log "Applying Zsh configuration..."
+sleep 1
 cp "$DOTFILES_DIR/.zshrc" "$HOME/"
 cp "$DOTFILES_DIR/.p10k.zsh" "$HOME/"
 
 ### MOVE SYSTEM CONFIG FILES ###
 log "Applying system configuration files..."
+sleep 1
 sudo cp "$DOTFILES_DIR/etc/pacman.conf" /etc/pacman.conf || error "Failed to copy pacman.conf"
 sudo cp "$DOTFILES_DIR/etc/ly/config.ini" /etc/ly/config.ini || error "Failed to copy ly config.ini"
+
+### REPLACE LY SERVICE ###
+log "Replacing ly.service with the one from dotfiles..."
+sleep 1
+sudo cp "$DOTFILES_DIR/etc/ly/ly.service" "/etc/systemd/system/ly.service"
+sudo systemctl daemon-reload
+sudo systemctl restart ly
 
 ### SET ZSH AS DEFAULT SHELL ###
 log "Ensuring /bin/zsh is listed in /etc/shells..."
 echo "/bin/zsh" | sudo tee -a /etc/shells >/dev/null
 
 log "Changing default shell to Zsh..."
-chsh -s /bin/zsh || error "Failed to set Zsh as default shell"
+sleep 1
+if [ "$SHELL" != "/bin/zsh" ]; then
+    chsh -s /bin/zsh || error "Failed to set Zsh as default shell"
+    log "Shell changed to Zsh. You need to log out and log back in for changes to take effect."
+fi
 
 ### ENABLE ESSENTIAL SYSTEM SERVICES ###
 log "Enabling system services..."
+sleep 1
 sudo systemctl enable --now NetworkManager || error "Failed to enable NetworkManager"
 sudo systemctl enable --now ly || error "Failed to enable ly"
 sudo systemctl enable --now sshd || error "Failed to enable SSH"
 
 ### CLEANUP ###
 log "Cleaning up unnecessary dependencies..."
+sleep 1
 yay -Yc --noconfirm || error "Cleanup failed"
 
-log "Installation complete! Please reboot."
-sudo reboot
+log "Cleaning up temporary and unwanted files..."
+sleep 1
+rm -f "$HOME/.bash_history" "$HOME/.bash_logout" "$HOME/.bash_profile" "$HOME/.bashrc"
+
+### REBOOT ###
+read -p "Installation complete! Reboot now? (y/N): " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    sudo reboot
+else
+    log "Reboot later to apply all changes."
+fi
+
 
