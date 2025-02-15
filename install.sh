@@ -72,12 +72,51 @@ cp -r /etc/ly/config.ini "$HOME/config_backup/" || log "No existing ly config.in
 ### MOVE CONFIG FILES TO HOME ###
 log "Applying new configuration files..."
 cp -r "$DOTFILES_DIR/.config" "$HOME/"
-cp "$DOTFILES_DIR/.zshrc" "$HOME/"
-cp "$DOTFILES_DIR/.p10k.zsh" "$HOME/"
 cp "$DOTFILES_DIR/.xinitrc" "$HOME/"
-cp -r "$DOTFILES_DIR/.oh-my-zsh" "$HOME/"
 cp -r "$DOTFILES_DIR/Pictures" "$HOME/"
 cp -r "$DOTFILES_DIR/.screenlayout" "$HOME/"
+
+### INSTALL OH MY ZSH ###
+log "Installing Oh My Zsh..."
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    rm -rf "$HOME/.oh-my-zsh"  # Remove any existing folder to avoid conflicts
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+else
+    log "Oh My Zsh already installed, skipping..."
+fi
+
+### INSTALL OH MY ZSH PLUGINS ###
+log "Installing Zsh plugins..."
+ZSH_CUSTOM="$HOME/.oh-my-zsh/custom/plugins"
+
+declare -A plugins=(
+    ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions.git"
+    ["fzf-tab"]="https://github.com/Aloxaf/fzf-tab.git"
+    ["zsh-autopair"]="https://github.com/hlissner/zsh-autopair.git"
+)
+
+for plugin in "${!plugins[@]}"; do
+    if [ ! -d "$ZSH_CUSTOM/$plugin" ]; then
+        git clone "${plugins[$plugin]}" "$ZSH_CUSTOM/$plugin"
+    else
+        log "$plugin already installed, skipping..."
+    fi
+done
+
+### INSTALL POWERLEVEL10K ###
+log "Installing Powerlevel10k..."
+P10K_THEME="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+if [ ! -d "$P10K_THEME" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_THEME"
+else
+    log "Powerlevel10k already installed, skipping..."
+fi
+
+### APPLY ZSH CONFIGURATION ###
+log "Applying Zsh configuration..."
+cp "$DOTFILES_DIR/.zshrc" "$HOME/"
+cp "$DOTFILES_DIR/.p10k.zsh" "$HOME/"
 
 ### MOVE SYSTEM CONFIG FILES ###
 log "Applying system configuration files..."
@@ -94,7 +133,7 @@ chsh -s /bin/zsh || error "Failed to set Zsh as default shell"
 ### ENABLE ESSENTIAL SYSTEM SERVICES ###
 log "Enabling system services..."
 sudo systemctl enable --now NetworkManager || error "Failed to enable NetworkManager"
-sudo systemctl enable --now bluetooth || error "Failed to enable Bluetooth"
+sudo systemctl enable --now ly || error "Failed to enable ly"
 sudo systemctl enable --now sshd || error "Failed to enable SSH"
 
 ### CLEANUP ###
