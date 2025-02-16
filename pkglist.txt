@@ -1,5 +1,4 @@
 arandr
-autorandr
 base
 base-devel
 bat
