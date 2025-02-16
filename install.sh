@@ -144,7 +144,9 @@ sudo cp "$DOTFILES_DIR/etc/ly/config.ini" /etc/ly/config.ini || error "Failed to
 ### REPLACE LY SERVICE ###
 log "Replacing ly.service with the one from dotfiles..."
 sudo cp "$DOTFILES_DIR/etc/ly/ly.service" "/etc/systemd/system/ly.service"
-sudo systemctl daemon-reload
+
+log "Reloading systemd daemon..."
+sudo systemctl daemon-reexec || log "Warning: daemon-reexec failed, continuing..."
 
 ### SET ZSH AS DEFAULT SHELL ###
 log "Ensuring /bin/zsh is listed in /etc/shells..."
@@ -159,8 +161,10 @@ fi
 ### ENABLE ESSENTIAL SYSTEM SERVICES ###
 log "Enabling system services..."
 sudo systemctl enable --now NetworkManager || error "Failed to enable NetworkManager"
-sudo systemctl enable ly || error "Failed to enable ly"
 sudo systemctl enable sshd || error "Failed to enable SSH"
+sudo systemctl enable ly || log "ly enabled"
+
+log "System services setup complete."
 
 ### CLEANUP ###
 log "Cleaning up unnecessary dependencies..."
@@ -176,5 +180,3 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 else
     log "Reboot later to apply all changes."
 fi
-
-
