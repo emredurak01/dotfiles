@@ -32,6 +32,7 @@ networkmanager
 nitrogen
 npm
 pamixer
+pavucontrol
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -47,6 +48,7 @@ tmux
 ttf-firacode-nerd
 unzip
 vim
+vlc
 wget
 wireless_tools
 wireplumber
