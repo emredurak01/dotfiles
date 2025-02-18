@@ -237,3 +237,6 @@ exec --no-startup-id nitrogen --restore
 
 # turn off bluetooth
 exec --no-startup-id bluetoothctl power off
+
+# keyboard repeat rate
+exec_always --no-startup-id xset r rate 250 50

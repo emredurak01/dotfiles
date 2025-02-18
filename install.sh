@@ -90,10 +90,6 @@ sleep 5
 log "Installing Mason LSPs..."
 nvim --headless "+Lazy sync" "+MasonInstall bash-language-server clangd css-lsp html-lsp jdtls lua-language-server pyright typescript-language-server" +qall
 
-### SET KEYBOARD REPEAT RATE ###
-log "Ensuring keyboard repeat rate is set..."
-echo "xset r rate 250 50" >> "$HOME/.xprofile"
-
 ### INSTALL OH MY ZSH ###
 log "Installing Oh My Zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
