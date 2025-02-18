@@ -20,6 +20,13 @@ error() {
 log "Updating system packages..."
 sudo pacman -Syu --noconfirm || error "System update failed"
 
+### REMOVE CONFLICTING PACKAGES ###
+log "Checking for conflicting packages..."
+if pacman -Qi i3lock &>/dev/null; then
+    log "Removing conflicting package: i3lock"
+    sudo pacman -Rns --noconfirm i3lock || error "Failed to remove i3lock"
+fi
+
 ### INSTALL GIT ###
 if ! command -v git &>/dev/null; then
     log "Git not found. Installing..."
@@ -178,6 +185,9 @@ sudo systemctl enable ly || log "ly enabled"
 log "System services setup complete."
 
 ### CLEANUP ###
+log "Removing xterm..."
+yay -Rns --noconfirm xterm || log "xterm not installed, skipping..."
+
 log "Cleaning up unnecessary dependencies..."
 yay -Yc --noconfirm || error "Cleanup failed"
 
