@@ -69,6 +69,7 @@ mkdir -p "$HOME/config_backup"
 cp -r "$HOME/.config" "$HOME/config_backup/" || log "No existing .config to backup"
 cp -r /etc/pacman.conf "$HOME/config_backup/" || log "No existing pacman.conf to backup"
 cp -r /etc/ly/config.ini "$HOME/config_backup/" || log "No existing ly config.ini to backup"
+cp -r /etc/X11/xorg.conf.d/30-touchpad.conf "$HOME/config_backup/" || log "No existing 30-touchpad.conf to backup"
 
 ### MOVE CONFIG FILES TO HOME ###
 log "Applying new configuration files..."
@@ -89,6 +90,19 @@ sleep 5
 
 log "Installing Mason LSPs..."
 nvim --headless "+Lazy sync" "+MasonInstall bash-language-server clangd css-lsp html-lsp jdtls lua-language-server pyright typescript-language-server" +qall
+
+### CHECK & LOAD BLUETOOTH MODULE ###
+log "Checking Bluetooth module..."
+if ! lsmod | grep -q "btusb"; then
+    log "btusb module not loaded. Loading it now..."
+    sudo modprobe btusb || error "Failed to load btusb module"
+else
+    log "btusb module already loaded."
+fi
+
+### ENABLE BLUETOOTH SERVICE ###
+log "Enabling Bluetooth service..."
+sudo systemctl enable --now bluetooth || error "Failed to enable Bluetooth"
 
 ### INSTALL OH MY ZSH ###
 log "Installing Oh My Zsh..."
@@ -136,6 +150,7 @@ cp "$DOTFILES_DIR/.p10k.zsh" "$HOME/"
 log "Applying system configuration files..."
 sudo cp "$DOTFILES_DIR/etc/pacman.conf" /etc/pacman.conf || error "Failed to copy pacman.conf"
 sudo cp "$DOTFILES_DIR/etc/ly/config.ini" /etc/ly/config.ini || error "Failed to copy ly config.ini"
+sudo cp "$DOTFILES_DIR/etc/X11/xorg.conf.d/30-touchpad.conf" /etc/X11/xorg.conf.d/ || error "Failed to copy 30-touchpad.conf"
 
 ### REPLACE LY SERVICE ###
 log "Replacing ly.service with the one from dotfiles..."
