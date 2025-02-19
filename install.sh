@@ -13,7 +13,6 @@ log() {
 
 error() {
     echo -e "${red}[ERROR] $1${reset}" >&2
-    exit 1
 }
 
 ### UPDATE SYSTEM ###
@@ -109,7 +108,7 @@ fi
 
 ### ENABLE BLUETOOTH SERVICE ###
 log "Enabling Bluetooth service..."
-sudo systemctl enable --now bluetooth || error "Failed to enable Bluetooth"
+sudo systemctl enable --now bluetooth || log "Failed to enable Bluetooth, moving on..."
 
 ### INSTALL OH MY ZSH ###
 log "Installing Oh My Zsh..."
