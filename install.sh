@@ -192,6 +192,7 @@ yay -Yc --noconfirm || error "Cleanup failed"
 
 log "Cleaning up temporary and unwanted files..."
 rm -f "$HOME/.bash_history" "$HOME/.bash_logout" "$HOME/.bash_profile" "$HOME/.bashrc"
+rm "$HOME/Pictures/Screenshots/.gitkeep"
 
 ### REBOOT ###
 read -p "Installation complete! Reboot now? (y/N): " answer
