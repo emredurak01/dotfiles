@@ -150,6 +150,6 @@ configuration {
   }
 
 }
-//@theme "/home/emre/.local/share/rofi/themes/enso-theme.rasi"
-//@theme "/home/emre/.config/rofi/themes/enso-theme.rasi"
-@theme "/home/emre/.config/rofi/themes/theme.rasi"
+//@theme "~/.local/share/rofi/themes/enso-theme.rasi"
+//@theme "~/.config/rofi/themes/enso-theme.rasi"
+@theme "~/.config/rofi/themes/theme.rasi"
