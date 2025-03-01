@@ -10,7 +10,6 @@ eza
 fd
 feh
 flameshot
-firefox
 fzf
 git
 grub
@@ -35,6 +34,7 @@ network-manager-applet
 networkmanager
 nitrogen
 npm
+obsidian
 pamixer
 pavucontrol
 pipewire

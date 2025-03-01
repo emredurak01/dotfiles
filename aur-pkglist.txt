@@ -1,1 +1,2 @@
 i3lock-color
+zen-browser-bin
