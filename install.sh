@@ -183,6 +183,10 @@ sudo systemctl enable ly || log "ly enabled"
 
 log "System services setup complete."
 
+### SET WALLPAPER ###
+log "Setting wallpaper..."
+nitrogen --set-auto ~/Pictures/Wallpapers/wallpaper.png 2> /dev/null
+
 ### CLEANUP ###
 log "Removing xterm..."
 yay -Rns --noconfirm xterm || log "xterm not installed, skipping..."
