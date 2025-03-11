@@ -45,4 +45,20 @@ Please visit [Wiki](https://github.com/emredurak01/dotfiles/wiki) to see more de
   <img src="assets/installation.png" alt="Features" width="200">
 </p>
 
-WIP
+The installation script is mainly designed and tested for [archinstall](https://github.com/archlinux/archinstall) script.
+
+> [!IMPORTANT]  
+> Archinstall script is recommended because it will install all the necessary drivers if you choose a profile. The script itself will not install any graphical drivers. It hasn't been tested for manual arch installation and is not supported.
+
+These configurations in the archinstall script are highly recommended:
+- From the "Profile" options, "Desktop > i3-wm" and "Greeter > ly"
+- Audio > pipewire
+- Network configuration > Use Networkmanager
+
+After the successful arch installation, execute these commands:
+```shell
+git clone --depth 1 https://github.com/emredurak01/dotfiles
+cd ~/dotfiles
+chmod +x install.sh
+./install.sh
+```
