@@ -185,7 +185,18 @@ log "System services setup complete."
 
 ### SET WALLPAPER ###
 log "Setting wallpaper..."
-nitrogen --set-auto ~/Pictures/Wallpapers/wallpaper.png 2> /dev/null
+
+if [ -f "$HOME/.config/nitrogen/nitrogen.cfg" ]; then
+    sed -i "/^dirs=/c\\dirs=$HOME/Pictures/Wallpapers;" "$HOME/.config/nitrogen/nitrogen.cfg"
+else
+    error "nitrogen.cfg not found"
+fi
+
+if [ -f "$HOME/.config/nitrogen/bg-saved.cfg" ]; then
+    sed -i "/^file=/c\\file=$HOME/Pictures/Wallpapers/wallpaper.png" "$HOME/.config/nitrogen/bg-saved.cfg"
+else
+    error "bg-saved.cfg not found"
+fi
 
 ### CLEANUP ###
 log "Removing xterm..."
