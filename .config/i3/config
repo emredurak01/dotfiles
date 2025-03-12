@@ -32,6 +32,9 @@ bindsym $mod+l exec --no-startup-id ~/.config/i3/lock.sh
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 # exec --no-startup-id nm-applet
 
+# Rofi redshift
+bindsym $mod+m exec --no-startup-id ~/.config/i3/rofi-redshift.sh
+
 # Rofi network
 bindsym $mod+n exec --no-startup-id ~/.config/i3/rofi-wifi.sh
 
