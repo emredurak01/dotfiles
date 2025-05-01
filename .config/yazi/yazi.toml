@@ -3,3 +3,11 @@ edit = [
  	{ run = '${EDITOR:=nvim} "$@"', desc = "nvim", block = true, for = "unix" }, 
   { run = 'sudo $EDITOR "$@"', desc = "sudo nvim",block = true,  for = "unix" },
 ]
+pdf = [
+	{ run = 'zen-browser "$@"', desc = "Zen", block = true, for = "unix" },
+]
+
+[open]
+prepend_rules = [
+  { mime = "application/pdf", use = [ "pdf", "reveal" ] },
+]
