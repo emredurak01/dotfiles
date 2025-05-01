@@ -150,6 +150,4 @@ configuration {
   }
 
 }
-//@theme "~/.local/share/rofi/themes/enso-theme.rasi"
-//@theme "~/.config/rofi/themes/enso-theme.rasi"
 @theme "~/.config/rofi/themes/theme.rasi"
