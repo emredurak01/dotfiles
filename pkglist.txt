@@ -34,6 +34,7 @@ neovim
 network-manager-applet
 networkmanager
 nitrogen
+noto-fonts-cjk
 npm
 obsidian
 pamixer
@@ -52,6 +53,7 @@ smartmontools
 thefuck
 tldr
 tmux
+ttf-atkinson-hyperlegible
 ttf-firacode-nerd
 unzip
 vim
