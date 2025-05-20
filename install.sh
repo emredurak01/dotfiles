@@ -157,6 +157,7 @@ log "Applying system configuration files..."
 sudo cp "$DOTFILES_DIR/etc/pacman.conf" /etc/pacman.conf || error "Failed to copy pacman.conf"
 sudo cp "$DOTFILES_DIR/etc/ly/config.ini" /etc/ly/config.ini || error "Failed to copy ly config.ini"
 sudo cp "$DOTFILES_DIR/etc/X11/xorg.conf.d/30-touchpad.conf" /etc/X11/xorg.conf.d/ || error "Failed to copy 30-touchpad.conf"
+sudo cp "$DOTFILES_DIR/etc/modprobe.d/nobeep.conf" /etc/modprobe.d/nobeep.conf || error "Failed to copy nobeep.conf"
 
 ### REPLACE LY SERVICE ###
 log "Replacing ly.service with the one from dotfiles..."
