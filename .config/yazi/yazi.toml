@@ -10,10 +10,16 @@ pdf = [
 
 image = [
   { run = 'feh "$@"', desc = "feh", for = "unix" }
+
+]
+
+video = [
+  { run = 'vlc "$@"', desc = "vlc", for = "unix" }
 ]
 
 [open]
 prepend_rules = [
   { mime = "application/pdf", use = [ "pdf", "reveal" ] },
   { mime = "image/*", use = [ "image" ] },
+  { mime = "video/*", use = [ "video" ] },
 ]

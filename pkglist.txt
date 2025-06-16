@@ -28,7 +28,6 @@ lightdm-gtk-greeter
 linux
 ly
 man-db
-mpv
 nano
 neovim
 network-manager-applet
@@ -60,6 +59,7 @@ ttf-atkinson-hyperlegible
 ttf-firacode-nerd
 unzip
 vim
+vlc
 wget
 wireless_tools
 wireplumber
