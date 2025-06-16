@@ -34,7 +34,10 @@ neovim
 network-manager-applet
 networkmanager
 nitrogen
+noto-fonts
 noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-extra
 npm
 obsidian
 pamixer
