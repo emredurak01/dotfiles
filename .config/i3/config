@@ -36,7 +36,7 @@ bindsym $mod+l exec --no-startup-id ~/.config/i3/lock.sh
 bindsym $mod+m exec --no-startup-id ~/.config/i3/rofi-redshift.sh
 
 # Rofi network
-bindsym $mod+n exec --no-startup-id ~/.config/i3/rofi-wifi.sh
+bindsym $mod+n exec --no-startup-id iwmenu -l rofi
 
 # Rofi power
 bindsym $mod+p exec --no-startup-id ~/.config/i3/rofi-power.sh
@@ -45,7 +45,7 @@ bindsym $mod+p exec --no-startup-id ~/.config/i3/rofi-power.sh
 bindsym $mod+c exec --no-startup-id rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo '{result}' | xclip -selection clipboard"
 
 # Rofi bluetooth
-bindsym $mod+b exec --no-startup-id ~/.config/i3/rofi-bluetooth.sh
+bindsym $mod+b exec --no-startup-id bzmenu -l rofi
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

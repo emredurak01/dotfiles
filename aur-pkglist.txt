@@ -1,3 +1,5 @@
+bzmenu
 dragon-drop
 i3lock-color
+iwmenu
 zen-browser-bin
