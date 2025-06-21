@@ -6,6 +6,7 @@ bat
 bluez-utils
 brightnessctl
 dmenu
+dunst
 eza
 fd
 feh
