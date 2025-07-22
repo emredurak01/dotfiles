@@ -47,6 +47,9 @@ bindsym $mod+c exec --no-startup-id rofi -show calc -modi calc -no-show-match -n
 # Rofi bluetooth
 bindsym $mod+b exec --no-startup-id bzmenu -l rofi
 
+# Rofi kb-layout
+bindsym $mod+g exec --no-startup-id ~/.config/i3/kb_layout_switcher.sh
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 5 && $refresh_i3status
