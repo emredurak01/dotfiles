@@ -1,0 +1,14 @@
+{
+  "minimal-style@@base@@dark": "#181616",
+  "minimal-style@@color-red@@dark": "#E46876",
+  "minimal-style@@color-orange@@dark": "#E6C384",
+  "minimal-style@@color-yellow@@dark": "#DCD7BA",
+  "minimal-style@@color-green@@dark": "#87A987",
+  "minimal-style@@color-cyan@@dark": "#7AA89F",
+  "minimal-style@@color-blue@@dark": "#7FB4CA",
+  "minimal-style@@color-purple@@dark": "#938AA9",
+  "minimal-style@@ax1@@light": "#72A7BC",
+  "minimal-style@@pdf-invert-dark": false,
+  "minimal-style@@pdf-blend-light": true,
+  "minimal-style@@image-muted": 1
+}

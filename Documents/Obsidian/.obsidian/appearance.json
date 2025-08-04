@@ -1,0 +1,9 @@
+{
+  "theme": "obsidian",
+  "cssTheme": "Minimal",
+  "textFontFamily": "Atkinson Hyperlegible",
+  "monospaceFontFamily": "FiraCode Nerd Font Mono",
+  "interfaceFontFamily": "Atkinson Hyperlegible",
+  "baseFontSize": 18,
+  "showRibbon": true
+}
