@@ -82,6 +82,7 @@ log "Applying new configuration files..."
 cp -r "$DOTFILES_DIR/.config" "$HOME/"
 cp -r "$DOTFILES_DIR/Pictures" "$HOME/"
 cp -r "$DOTFILES_DIR/.screenlayout" "$HOME/"
+cp -r "$DOTFILES_DIR/Documents" "$HOME/"
 
 ### INSTALL NVIM ###
 log "Installing Nvim..."
