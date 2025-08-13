@@ -69,6 +69,22 @@ else
     error "aur-pkglist.txt not found"
 fi
 
+### INSTALL KANAGAWA GTK THEME ###
+log "Installing Kanagawa GTK Theme..."
+
+KANAGAWA_DIR="$HOME/Kanagawa-GKT-Theme"
+if [ -d "$KANAGAWA_DIR" ]; then
+    log "Kanagawa GTK Theme already cloned. Pulling latest updates..."
+    cd "$KANAGAWA_DIR" && git pull && cd -
+else
+    git clone https://github.com/Fausto-Korpsvart/Kanagawa-GKT-Theme.git "$KANAGAWA_DIR" || error "Failed to clone Kanagawa GTK Theme"
+fi
+
+log "Running Kanagawa GTK Theme installer..."
+cd "$KANAGAWA_DIR/themes" || error "Themes directory not found"
+./install.sh --tweaks dragon --color dark --libadwaita || error "Theme installation failed"
+cd - >/dev/null
+
 ### BACKUP EXISTING CONFIGS ###
 log "Backing up existing config files..."
 mkdir -p "$HOME/config_backup"
