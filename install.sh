@@ -227,6 +227,8 @@ log "Cleaning up temporary and unwanted files..."
 rm -f "$HOME/.bash_history" "$HOME/.bash_logout" "$HOME/.bash_profile" "$HOME/.bashrc"
 rm "$HOME/Pictures/Screenshots/.gitkeep"
 
+rm -rf "~/Kanagawa-GKT-Theme"
+
 ### REBOOT ###
 read -p "Installation complete! Reboot now? (y/N): " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
