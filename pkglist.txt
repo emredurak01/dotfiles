@@ -3,6 +3,7 @@ arandr
 base
 base-devel
 bat
+bluetui
 bluez-utils
 brightnessctl
 dmenu
